@@ -25,8 +25,6 @@ window.configure(bg = "#FFFFFF")
 window.iconbitmap('assets/icon.ico')
 window.title('Moody - Song Recommender')
 
-
-
 if os.path.exists('assets/token.pickle'):
     print('Loading Credentials From File...')
     with open('assets/token.pickle', 'rb') as token:
@@ -38,10 +36,12 @@ request = youtube.channels().list(
         mine = True,
 
     )
+
 response = request.execute()
 username = response['items'][0]['snippet']['title']
 
 present = False
+playurl = ''
 
 def clock():
     string = time.strftime('%A \n %d-%m-%y \n %I:%M:%S %p')
@@ -54,8 +54,11 @@ def mooddetfunc(mood, entry_1):
     os.system('python mooddetmain/mooddetmain.py')
     f = open('assets/mood.txt', 'r')
     mood = f.read()
+    f.close()
+    
     entry_1.delete('0', END)
     if ' ' not in mood and len(mood) > 1: 
+        
         entry_1.insert(END, "Detected Mood: " + mood + ". Click 'Detect Mood' again if the detection was wrong.")
         messagebox.showinfo(f"Mood Detected: {mood.upper()}", "Detected Mood: " + mood.upper() + ". \nClick 'Detect Mood' again if the detection was wrong.")
         button_2.place(
@@ -106,14 +109,19 @@ def ytPlaylist(text, entry_1):
             entry_1.delete('0', END)
             entry_1.insert(END, 'ran out of required quota.')
             messagebox.showerror('Error', 'ran out of required quota.')
-            
         else: 
             entry_1.delete('0', END)
             entry_1.insert(END, f'playlist generated. url -> {url0}')
-            webbrowser.open(f'https://{url}')
-        f.write('')
+            webbrowser.open(f'{url0}')
+            playurl = url0
         f.close()
-            
+        button_3.place(
+            x=18.0,
+            y=618.0,
+            width=254.0,
+            height=45.0
+        )
+        
 def CreatePlayButton():
     t1 = Thread(target=ytPlaylist, args=(mood, entry_1))
     t1.start()
@@ -128,6 +136,17 @@ def signout():
     window.destroy()
     os.system('python signin/signin.py')
 
+def delPlaylist():
+    response = youtube.playlistItems().list(
+         part = 'ContentDetails', 
+         playlistId = playurl.replace('https://www.youtube.com/playlist?list=', ''), 
+         maxResults = 10,    
+    ).execute()
+    playlistitems = response['items']
+    for item in playlistitems: 
+        print('Deleting {0}'.format(item['id']))
+        youtube.playlistItems().delete(id=item['id']).execute()
+    print('process complete.')
 mood = 'Click the "Detect Mood" Button to get started.'
 
 canvas = Canvas(
@@ -228,14 +247,8 @@ button_3 = Button(
     image=button_image_3,
     borderwidth=0,
     highlightthickness=0,
-    command=lambda: print('u'),
+    command=delPlaylist,
     relief="flat"
-)
-button_3.place(
-    x=18.0,
-    y=618.0,
-    width=254.0,
-    height=45.0
 )
 
 canvas.create_text(

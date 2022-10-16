@@ -25,6 +25,7 @@ while(True):
         try: 
             predict = DeepFace.analyze(frame)
             cv2.putText(frame, predict['dominant_emotion'], (50, 50), fontFace=cv2.FONT_HERSHEY_COMPLEX, fontScale=1, color=(0, 0, 255), thickness=2)
+            f.write('')
             f.write(predict['dominant_emotion'])
             break
         except ValueError:

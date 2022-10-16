@@ -21,7 +21,7 @@ try:
         'neutral': 'song mix lyrics', 
         'angry': 'soothing songs lyrics',
         'fear': 'lofi songs lyrics',
-        'surprised': 'rap songs lyrics'
+        'surprise': 'rap songs lyrics'
     }
 
     quan = 3
