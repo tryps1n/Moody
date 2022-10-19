@@ -138,13 +138,13 @@ def signout():
 
 def delPlaylist():
     response = youtube.playlistItems().list(
-         part = 'ContentDetails', 
+         part = 'contentDetails', 
          playlistId = playurl.replace('https://www.youtube.com/playlist?list=', ''), 
          maxResults = 10,    
     ).execute()
     playlistitems = response['items']
     for item in playlistitems: 
-        print('Deleting {0}'.format(item['id']))
+        print('deleting item')
         youtube.playlistItems().delete(id=item['id']).execute()
     print('process complete.')
 mood = 'Click the "Detect Mood" Button to get started.'

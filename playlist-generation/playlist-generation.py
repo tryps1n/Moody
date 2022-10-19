@@ -16,12 +16,12 @@ try:
     credentials = None
 
     queries = {
-        'sad': 'cheery songs lyrics', 
-        'happy': 'upbeat lively songs lyrics', 
-        'neutral': 'song mix lyrics', 
-        'angry': 'soothing songs lyrics',
-        'fear': 'lofi songs lyrics',
-        'surprise': 'rap songs lyrics'
+        'sad': 'lofi chill songs', 
+        'happy': 'upbeat cheery lively songs lyrics', 
+        'neutral': 'trending songs lyrics', 
+        'angry': 'metal songs lyrics',
+        'fear': 'soothing songs lyrics',
+        'surprised': 'rap songs lyrics'
     }
 
     quan = 3
