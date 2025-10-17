@@ -12,4 +12,3 @@ Run ```deepface-installation.py```
 Run ```main.py```.
 
 Sign in using the window that appears and you are good to go.
-Nani
